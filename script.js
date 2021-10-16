@@ -1,17 +1,26 @@
-const { urlencoded } = require('express');
+// const { urlencoded } = require('express');
 const express = require('express')
 const app = express();
 const bcrypt = require('bcrypt');
 const passport = require('passport')
+const flash = require('express-flash')
+const session = require('express-session')
+
+// routes 
 
 const initializePassport = require('./passport-config')
-initializePassport(passport)
+initializePassport(passport, email => {
+    return users.find(user => user.email === email)
+})
 
+// get users 
+// @TODO publish the users to mongoDB atlas 
 const users = []
 
 app.set('view-engine', 'ejs')
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: false }))
+app.use(flash)
 
 
 
